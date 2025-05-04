@@ -13,16 +13,10 @@ class Board:
                 return True
         return False
     
-    def print_board(self):
-        """Print the board."""
-        for row in self.grid:
-            print(" | ".join(str(cell) if cell != 0 else "." for cell in row))
-            print("-" * (self.cols * 4 - 3))
-
-    def printgrid(self):
-        """Print the grid."""
-        for row in range(self.rows):
-            print(self.grid[row])
+    def __str__(self):
+        symbols = {0: ".", 1: "X", 2: "O"}
+        rows = [" ".join(symbols[c] for c in row) for row in self.grid]
+        return "\n".join(rows)
 
     def check_4(self, row: int, col: int, delta_row: int, delta_col: int, player: int) -> bool:
         """Check if there are 4 in a row in the specified direction."""
