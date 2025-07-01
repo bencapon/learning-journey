@@ -1,7 +1,0 @@
-{
-    "python.testing.pytestArgs": [
-        "connect4-ai"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
-}
