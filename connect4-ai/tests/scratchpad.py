@@ -1,10 +1,9 @@
 # %% 
 from connect4_ai.board import Board
-H_win=Board()
-for col in range(4):
-    H_win.drop_disc(col, 1)
+b = Board()
+for col in range(b.cols):
+    for _ in range(b.rows):
+        b.drop_disc(col, 1 if col % 2 == 0 else 2)  # alternate players
 
-H_win.check_winner_last_move(1,-1,3)
-
-print(H_win)
+print(b)
 # %%

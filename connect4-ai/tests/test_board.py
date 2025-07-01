@@ -54,3 +54,13 @@ def test_check_winner_last_move():
     assert D1_win.check_winner_last_move(1,2,3)
     assert D2_win.check_winner_last_move(1,5,3)
 
+
+#full board
+def test_full_board():
+    b = Board()
+    for col in range(b.cols):
+        for _ in range(b.rows):
+            b.drop_disc(col, 1)  
+    assert b.is_full() == True
+ 
+
