@@ -33,31 +33,7 @@ class Board:
         rows = [" ".join(symbols[c] for c in row) for row in self.grid]
         return "\n".join(rows)
 
-    def check_4(self, row: int, col: int, delta_row: int, delta_col: int, player: int) -> bool:
-        """Check if there are 4 in a row in the specified direction."""
-        for _ in range(4):
-            if row < 0 or row >= self.rows or col < 0 or col >= self.cols or self.grid[row][col] != player:
-                return False
-            row += delta_row
-            col += delta_col
-        return True 
     
-    
-    def check_winner(self, player: int) -> bool:
-        """Check if the specified player has won, scanning the whole board.
-        Check horizontal, vertical, and diagonal lines for a win"""
-        for row in range(self.rows):
-            for col in range(self.cols):
-                if self.grid[row][col] == player:
-                    for dr, dc in self.BASE_DIRS:
-                        if self.check_4(row, col, dr, dc, player):
-                            return True
-        return False
-    
-    """
-    The above two methods are not used in the current game logic, but they are useful for checking the board state.
-    The below two methods are used to check the winner after the last move, which is more efficient.
-    """
     def count_discs_in_a_line(self, row: int, col: int, delta_row: int, delta_col: int, player: int) -> int:
         """Count the number of consecutive discs in a line for the specified player."""
         count = 0
@@ -68,6 +44,19 @@ class Board:
             col += delta_col
         return count
 
+    def check_winner(self, player: int) -> bool:
+            """
+            Check if the specified player has won, scanning the whole board.
+            Check horizontal, vertical, and diagonal lines for a win.
+            This method is not used in the game, but it's useful for testing purposes."""
+            for row in range(self.rows):
+                for col in range(self.cols):
+                    if self.grid[row][col] == player:
+                        for dr, dc in self.BASE_DIRS:
+                            if self.count_discs_in_a_line(row, col, dr, dc, player) >= 3: # 3 + 1 for the disc itself
+                                return True
+            return False
+    
     def check_winner_last_move(self, player: int, row: int, col: int) -> bool:
         """Check if the specified player has won with the last move."""
         for dr, dc in self.BASE_DIRS: #check 4 base directions
