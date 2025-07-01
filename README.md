@@ -1,1 +1,1 @@
-# learning-journey"# Learning Journey" 
+Learning how to make stuff with the help of copilot. 
