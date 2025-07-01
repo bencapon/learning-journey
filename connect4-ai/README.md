@@ -14,4 +14,8 @@ Why define a function play_game and call it if __name__ == "__main__", instead o
 To run the game, open ~/learning-journey/connect4-ai with git bash, then run command:
 >poetry run python src/connect4_ai/game.py
 
+Inspiration for minimax algorith:
+https://connect4.gamesolver.org/
+http://blog.gamesolver.org/
+
 
