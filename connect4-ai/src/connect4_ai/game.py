@@ -1,9 +1,6 @@
 from connect4_ai.board import Board
 from connect4_ai.player import Player, RandomBot, HumanPlayer
 
-
-
-
 def play_game():
     board = Board()
     player1 = HumanPlayer(1, "You")

@@ -1,5 +1,19 @@
 class Board:
     EMPTY=0
+    BASE_DIRS = [
+        (dr, dc)
+        for dr in (0, 1)
+        for dc in (-1, 0, 1)
+        if (dr, dc) != (0, 0) and not (dr == 0 and dc == -1)
+    ]
+    # → [(0, 1), (1, -1), (1, 0), (1, 1)]
+    """
+    Base directions for checking 4 in a line:
+    - (0, 1): horizontal right 
+    - (1, -1): diagonal down-left
+    - (1, 0): vertical down
+    - (1, 1): diagonal down-right
+    Not really necessary to generate base directions programmatically, but it's a good exercise."""
 
     def __init__(self, rows=6, cols=7):
         self.rows = rows
@@ -35,31 +49,36 @@ class Board:
         for row in range(self.rows):
             for col in range(self.cols):
                 if self.grid[row][col] == player:
-                    if self.check_4(row, col, 1, 0, player) or \
-                       self.check_4(row, col, 0, 1, player) or \
-                       self.check_4(row, col, 1, 1, player) or \
-                       self.check_4(row, col, 1, -1, player):
-                        return True
+                    for dr, dc in self.BASE_DIRS:
+                        if self.check_4(row, col, dr, dc, player):
+                            return True
         return False
     
+    """
+    The above two methods are not used in the current game logic, but they are useful for checking the board state.
+    The below two methods are used to check the winner after the last move, which is more efficient.
+    """
+    def count_discs_in_a_line(self, row: int, col: int, delta_row: int, delta_col: int, player: int) -> int:
+        """Count the number of consecutive discs in a line for the specified player."""
+        count = 0
+        row, col = row + delta_row, col + delta_col #start checking from the next cell in the specified direction
+        while 0 <= row < self.rows and 0 <= col < self.cols and self.grid[row][col] == player:
+            count += 1
+            row += delta_row
+            col += delta_col
+        return count
+
     def check_winner_last_move(self, player: int, row: int, col: int) -> bool:
         """Check if the specified player has won with the last move."""
-        #Check vertical (only down)
-        if self.check_4(row, col, 1, 0, player):
-            return True
-        #Horizontal 
-        if self.check_4(row, col, 0, 1, player) or self.check_4(row, col, 0, -1, player):
-            return True
-        #Check diag, top left to bottom right
-        if self.check_4(row, col, 1, 1, player) or self.check_4(row, col, -1, -1, player):
-            return True
-        #diag, bottom left to top right
-        if self.check_4(row, col, 1, -1, player) or self.check_4(row, col, -1, 1, player):
-            return True
+        for dr, dc in self.BASE_DIRS: #check 4 base directions
+            count = 1 # start with 1 for the last disc placed
+            count += self.count_discs_in_a_line(row, col, dr, dc, player) #forward
+            count += self.count_discs_in_a_line(row, col, -dr, -dc, player) #backward
+            if count >= 4:
+                return True
         
         return False
     
-
     def is_full(self) -> bool:
         """Return True if the board is full (i.e., no empty cells in the top row)."""
         return all(cell != self.EMPTY for cell in self.grid[0])

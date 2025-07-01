@@ -7,9 +7,8 @@ class Player:
 
     def get_move(self, board):
         """To be implemented in subclasses (e.g. HumanPlayer, BotPlayer)."""
-        raise NotImplementedError
+        raise NotImplementedError 
     
-
 class HumanPlayer(Player):
     def get_move(self, board) -> int:
         """Get move from human player."""
@@ -22,7 +21,7 @@ class HumanPlayer(Player):
                     print("Invalid move. Try again.")
             except ValueError:
                 print("Invalid input. Please enter a number.")
-
+                
 class RandomBot(Player):
     def get_move(self, board: Board) -> int:
         legal_moves = [c for c in range(board.cols) if board.grid[0][c] == 0] #list of columns that are not full
