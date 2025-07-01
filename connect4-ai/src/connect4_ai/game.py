@@ -1,16 +1,13 @@
 from connect4_ai.board import Board
-from connect4_ai.player import Player
-import random
+from connect4_ai.player import Player, RandomBot, HumanPlayer
 
-class RandomBot(Player):
-    def get_move(self, board: Board) -> int:
-        legal_moves = [c for c in range(board.cols) if board.grid[0][c] == 0]
-        return random.choice(legal_moves)
+
+
 
 def play_game():
     board = Board()
-    player1 = RandomBot(1, "Bot 1")
-    player2 = RandomBot(2, "Bot 2")
+    player1 = HumanPlayer(1, "User")
+    player2 = RandomBot(2, "Bot")
     players = [player1, player2]
 
     current = 0  # index: 0 or 1
