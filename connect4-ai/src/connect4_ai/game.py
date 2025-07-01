@@ -6,7 +6,7 @@ from connect4_ai.player import Player, RandomBot, HumanPlayer
 
 def play_game():
     board = Board()
-    player1 = HumanPlayer(1, "User")
+    player1 = HumanPlayer(1, "You")
     player2 = RandomBot(2, "Bot")
     players = [player1, player2]
 
@@ -19,7 +19,7 @@ def play_game():
         print(board)
         player = players[current]
         col = player.get_move(board)
-        print(f"{player.name} chooses column {col}")
+        print(f"{player.name} chose column {col}")
 
         row = board.drop_disc(col, player.number)
         if row is None:
@@ -28,7 +28,7 @@ def play_game():
 
         if board.check_winner_last_move(player.number,row,col):
             print(board)
-            print(f"{player.name} wins!")
+            print(f"{player.name} won!")
             break
 
         if board.is_full():

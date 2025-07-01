@@ -10,3 +10,8 @@ importing from src.board isn't very clean or portable
 Why define a function play_game and call it if __name__ == "__main__", instead of just having the play_gmae script as top level code?
 1. So that play_game is only run if the game file is being run directly (not imported by another file).
 2. Keeps the game reusable, testable, and organised. Considered best practice in every Python script. 
+
+To run the game, open ~/learning-journey/connect4-ai with git bash, then run command:
+>poetry run python src/connect4_ai/game.py
+
+
